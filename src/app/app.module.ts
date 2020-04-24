@@ -10,6 +10,7 @@ import { UserModule } from '../user/user.module';
 import { AuthModule } from '../auth/auth.module';
 import config from '../database/config/local';
 import { LoggerModule } from "../logger/logger.module";
+import { OrdersModule } from "../orders/orders.module";
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { LoggerModule } from "../logger/logger.module";
     TypeOrmModule.forRoot(config as TypeOrmModuleOptions),
     UserModule,
     LoggerModule,
+    OrdersModule,
     AuthModule,
   ],
   controllers: [AppController],

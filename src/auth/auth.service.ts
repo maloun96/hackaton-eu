@@ -1,11 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Body, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
 import { LoginUserDTO } from './auth.dto';
-import { RegisterUserDTO } from '../user/user.dto';
 import { UserRepository } from '../user/user.repository';
 import * as crypto from "crypto";
+import { UserService } from "../user/user.service";
 
 @Injectable()
 export class AuthService {
@@ -46,7 +45,11 @@ export class AuthService {
     };
   }
 
-  public async register(user: RegisterUserDTO): Promise<any> {
+  public async register(@Body() user: any): Promise<any> {
     return this.userService.create(user);
+  }
+
+  public async update(@Body() user: any): Promise<any> {
+    return this.userService.update(user);
   }
 }

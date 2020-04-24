@@ -1,7 +1,8 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginUserDTO } from './auth.dto';
-import { RegisterUserDTO } from '../user/user.dto';
+import { User } from "../user/user.entity";
+import { AuthGuard } from "./auth.guard";
 
 @Controller('auth')
 export class AuthController {
@@ -55,17 +56,7 @@ export class AuthController {
    *         required: true
    *         schema:
    *           type: object
-   *           required:
-   *             - email
-   *             - password
-   *             - name
-   *           properties:
-   *             email:
-   *               type: string
-   *             password:
-   *               type: string
-   *             name:
-   *               type: string
+   *           $ref: '#/definitions/User'
    *     produces:
    *       - application/json
    *     responses:
@@ -73,7 +64,37 @@ export class AuthController {
    *         description: success
    */
   @Post('register')
-  async register(@Body() user: RegisterUserDTO): Promise<any> {
+  async register(@Body() user: User): Promise<any> {
     return this.authService.register(user);
+  }
+
+  /**
+   * @swagger
+   *
+   * /auth/update:
+   *   post:
+   *     tags:
+   *       - auth
+   *     description: update user
+   *     parameters:
+   *       - name: body
+   *         in: body
+   *         required: true
+   *         schema:
+   *           type: object
+   *           $ref: '#/definitions/User'
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: success
+   *     security:
+   *       - bearer: []
+   */
+  @UseGuards(new AuthGuard())
+  @Post('update')
+  async update(@Body() user: any, @Req() req): Promise<any> {
+    user.id = req.user.id;
+    return this.authService.update(user);
   }
 }

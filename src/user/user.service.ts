@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { User } from './user.entity';
-import { RegisterUserDTO } from './user.dto';
+import { validate } from 'class-validator';
 import { UserRepository } from './user.repository';
 
 @Injectable()
@@ -15,25 +15,43 @@ export class UserService {
     return await this.userRepository.find();
   }
 
-  async create(userDTO: RegisterUserDTO): Promise<User> {
-
+  async create(userDTO: User): Promise<any> {
     const user = new User();
     user.name = userDTO.name;
+    user.surname = userDTO.surname;
+    user.latitude = userDTO.latitude;
+    user.longitude = userDTO.longitude;
+    user.phone = userDTO.phone;
+    user.action_perimeter = userDTO.action_perimeter || 5;
     user.email = userDTO.email;
+    user.volunteer = userDTO.volunteer || false;
     user.password = userDTO.password;
+
+    const errors = await validate(user);
+    if (errors.length > 0) {
+      return errors;
+    }
 
     return await this.userRepository.save(user);
   }
 
-  async update(User: RegisterUserDTO): Promise<User> {
-    const user = await this.userRepository.findOne(User.id);
-    if (!user) {
-      return user;
-    }
+  async update(userDTO: any): Promise<any> {
+    const user = await this.userRepository.findOne(userDTO.id);
 
-    user.name = User.name;
-    user.email = User.email;
-    user.password = User.password;
+    user.name = userDTO.name || user.name;
+    user.surname = userDTO.name || user.surname;
+    user.latitude = parseFloat(userDTO.latitude || user.latitude);
+    user.longitude = parseFloat(userDTO.longitude || user.longitude);
+    user.phone = userDTO.phone || user.phone ;
+    user.action_perimeter = userDTO.action_perimeter || user.action_perimeter;
+    user.email = userDTO.email || user.email;
+    user.volunteer = userDTO.volunteer || user.volunteer || false;
+    user.password = userDTO.password || user.password;
+
+    const errors = await validate(user);
+    if (errors.length > 0) {
+      return errors;
+    }
 
     return await this.userRepository.save(user);
   }

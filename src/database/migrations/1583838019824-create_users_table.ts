@@ -8,10 +8,15 @@ export class CreateUsersTable1583838019824 implements MigrationInterface {
             (
                 id INT NOT NULL AUTO_INCREMENT,
                 name     VARCHAR(255) NULL,
+                surname     VARCHAR(255) NULL,
+                action_perimeter INT NULL,
+                phone VARCHAR(255) NULL,
                 email    VARCHAR(255) NOT NULL,
+                volunteer    TINYINT(1) NOT NULL DEFAULT 0,
                 password VARCHAR(255) NOT NULL,
+                latitude DECIMAL(11,8),
+                longitude DECIMAL(11,8),
                 PRIMARY KEY (id),
-                UNIQUE INDEX test_UNIQUE (name ASC),
                 UNIQUE INDEX email_UNIQUE (email ASC)
             );
 
