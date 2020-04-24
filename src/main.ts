@@ -23,14 +23,6 @@ const initApp = async () => {
 
   app.useGlobalFilters(new BadRequestExceptionFilter(), new QueryFailedExceptionFilter(), new HttpExceptionFilter());
 
-  const config = app.get<ConfigService>(ConfigService);
-  app.connectMicroservice({
-    transport: Transport.REDIS,
-    options: {
-      url: config.get('REDIS_URL'),
-    },
-  });
-
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
     validationError: { target: false },

@@ -33,7 +33,8 @@ export const swaggerJson = {
       },
     },
     "schemes": [
-      "http"
+      "https",
+      "http",
     ],
     "basePath": "/",
   },

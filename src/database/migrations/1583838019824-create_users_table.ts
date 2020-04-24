@@ -6,7 +6,7 @@ export class CreateUsersTable1583838019824 implements MigrationInterface {
         return queryRunner.query(`
             CREATE TABLE users
             (
-                id INT NOT NULL,
+                id INT NOT NULL AUTO_INCREMENT,
                 name     VARCHAR(255) NULL,
                 email    VARCHAR(255) NOT NULL,
                 password VARCHAR(255) NOT NULL,

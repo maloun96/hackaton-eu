@@ -23,10 +23,10 @@ export class AuthController {
    *         schema:
    *           type: object
    *           required:
-   *             - username
+   *             - email
    *             - password
    *           properties:
-   *             username:
+   *             email:
    *               type: string
    *             password:
    *               type: string
@@ -42,7 +42,7 @@ export class AuthController {
   }
 
   /**
-   * @ swagger  # HIDDEN
+   * @swagger
    *
    * /auth/register:
    *   post:
@@ -66,8 +66,6 @@ export class AuthController {
    *               type: string
    *             name:
    *               type: string
-   *             role_id:
-   *               type: number
    *     produces:
    *       - application/json
    *     responses:
