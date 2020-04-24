@@ -10,6 +10,7 @@ export class CreateOrdersTable1587755193560 implements MigrationInterface {
               latitude DECIMAL(11,8) NULL,
               longitude DECIMAL(11,8) NULL,
               address TEXT NULL,
+              description TEXT NULL,
               expires_at DATETIME NULL,
               status ENUM('open', 'in progress', 'done', 'canceled') NULL,
               created_at DATETIME NULL,

@@ -24,6 +24,10 @@ export class OrderService {
     };
   }
 
+  async getById(orderId) {
+    return await this.orderRepository.findOne({where: {id: orderId}, relations: ["created_by", "accepted_by"]});
+  }
+
   async accept(orderId: number, sessionUserId: number) {
     const order = await this.orderRepository.findOne(orderId);
     order.accepted_by = await this.userRepository.findOne(sessionUserId);
@@ -34,6 +38,7 @@ export class OrderService {
   async create(requestDto: any, sessionUser) {
     const order = new Order();
     order.title = requestDto.title;
+    order.description = requestDto.description;
     order.latitude = requestDto.latitude;
     order.longitude = requestDto.longitude;
     order.address = requestDto.address;
@@ -53,6 +58,7 @@ export class OrderService {
   async update(requestDto: any, sessionUser) {
     const order = await this.orderRepository.findOne(requestDto.id);
     order.title = requestDto.title || order.title;
+    order.description = requestDto.description || order.description;
     order.latitude = parseFloat(requestDto.latitude || order.latitude);
     order.longitude = parseFloat(requestDto.longitude || order.longitude);
     order.address = requestDto.address || order.address;

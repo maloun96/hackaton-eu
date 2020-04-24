@@ -21,7 +21,7 @@ export const swaggerJson = {
         'required': ['name', 'surname', 'latitude', 'longitude'],
         'properties': {
           'name': { 'type': 'string' },
-          'volunteer': { 'type': 'boolean' },
+          'available': { 'type': 'boolean' },
           'surname': { 'type': 'string' },
           'email': { 'type': 'string' },
           'phone': { 'type': 'string' },
@@ -33,10 +33,11 @@ export const swaggerJson = {
       },
       'Order': {
         'type': 'object',
-        'required': ['title', 'address', 'expires_at', 'latitude', 'longitude'],
+        'required': ['title', 'address', 'description', 'expires_at', 'latitude', 'longitude'],
         'properties': {
           'title': { 'type': 'string' },
           'address': { 'type': 'string' },
+          'description': { 'type': 'string' },
           'expires_at': { 'type': 'string' },
           'status': { 'type': 'string' },
           'latitude': { 'type': 'number' },

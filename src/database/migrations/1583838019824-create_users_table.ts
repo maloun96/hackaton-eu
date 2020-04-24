@@ -12,7 +12,7 @@ export class CreateUsersTable1583838019824 implements MigrationInterface {
                 action_perimeter INT NULL,
                 phone VARCHAR(255) NULL,
                 email    VARCHAR(255) NOT NULL,
-                volunteer    TINYINT(1) NOT NULL DEFAULT 0,
+                available    TINYINT(1) NOT NULL DEFAULT 0,
                 password VARCHAR(255) NOT NULL,
                 latitude DECIMAL(11,8),
                 longitude DECIMAL(11,8),

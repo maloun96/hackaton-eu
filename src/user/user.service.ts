@@ -24,7 +24,7 @@ export class UserService {
     user.phone = userDTO.phone;
     user.action_perimeter = userDTO.action_perimeter || 5;
     user.email = userDTO.email;
-    user.volunteer = userDTO.volunteer || false;
+    user.available = userDTO.available || false;
     user.password = userDTO.password;
 
     const errors = await validate(user);
@@ -45,7 +45,7 @@ export class UserService {
     user.phone = userDTO.phone || user.phone ;
     user.action_perimeter = userDTO.action_perimeter || user.action_perimeter;
     user.email = userDTO.email || user.email;
-    user.volunteer = userDTO.volunteer || user.volunteer || false;
+    user.available = userDTO.available || user.available || false;
     user.password = userDTO.password || user.password;
 
     const errors = await validate(user);

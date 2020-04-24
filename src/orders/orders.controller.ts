@@ -62,6 +62,27 @@ export class OrderController {
   /**
    * @swagger
    *
+   * /order/{id}:
+   *   get:
+   *     tags:
+   *       - order
+   *     description: Get order
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: success
+   *     security:
+   *       - bearer: []
+   */
+  @Get(':id')
+  async getOrder(@Param() params: FindOneOrder, @Req() req): Promise<any> {
+    return this.orderService.getById(params.id);
+  }
+
+  /**
+   * @swagger
+   *
    * /order/{id}/accept:
    *   post:
    *     tags:

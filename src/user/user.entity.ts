@@ -47,7 +47,7 @@ export class User {
   @IsBoolean()
   @IsOptional()
   @Column()
-  volunteer: boolean;
+  available: boolean;
 
   @IsNumber()
   @Column()

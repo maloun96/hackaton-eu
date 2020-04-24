@@ -27,6 +27,10 @@ export class Order {
   @Column()
   expires_at: string;
 
+  @IsString()
+  @Column()
+  description: string;
+
   @ManyToOne(() => User, user => user.orders)
   @JoinColumn({name: "created_by"})
   created_by: User;
