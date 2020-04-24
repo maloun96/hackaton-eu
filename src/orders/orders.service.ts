@@ -7,12 +7,14 @@ import moment from "moment";
 import { validate } from "class-validator";
 import * as geolib from 'geolib';
 import { User } from "../user/user.entity";
+import { PusherService } from "../shared/pusher.service";
 
 @Injectable()
 export class OrderService {
   constructor(
     private orderRepository: OrderRepository,
     private userRepository: UserRepository,
+    private pusherService: PusherService,
   ) {
   }
 
@@ -52,6 +54,7 @@ export class OrderService {
     order.accepted_by = await this.userRepository.findOne(sessionUserId);
     order.status = "in progress";
 
+    this.pusherService.sendNotification(order.created_by.id, 'Your order has been taken.');
     return this.orderRepository.save(order);
   }
 
@@ -92,6 +95,8 @@ export class OrderService {
     if (errors.length > 0) {
       return errors;
     }
+
+    this.pusherService.sendNotification(order.created_by.id, `Your order status has been changed to ${order.status}`);
 
     return await this.orderRepository.save(order);
   }
