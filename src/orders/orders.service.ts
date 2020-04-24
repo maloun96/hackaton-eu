@@ -50,6 +50,7 @@ export class OrderService {
   async accept(orderId: number, sessionUserId: number) {
     const order = await this.orderRepository.findOne(orderId);
     order.accepted_by = await this.userRepository.findOne(sessionUserId);
+    order.status = "in progress";
 
     return this.orderRepository.save(order);
   }
