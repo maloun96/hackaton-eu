@@ -34,6 +34,27 @@ export class OrderController {
   /**
    * @swagger
    *
+   * /order/gps:
+   *   get:
+   *     tags:
+   *       - order
+   *     description: Get all orders in range of user action perimiter
+   *     security:
+   *       - bearer: []
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: success
+   */
+  @Get('gps')
+  getGps(@Req() req): Promise<Order[]> {
+    return this.orderService.findByGps(req.user.id);
+  }
+
+  /**
+   * @swagger
+   *
    * /order:
    *   post:
    *     tags:

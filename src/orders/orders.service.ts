@@ -5,6 +5,8 @@ import { Order } from "./order.entity";
 import { UserRepository } from "../user/user.repository";
 import moment from "moment";
 import { validate } from "class-validator";
+import * as geolib from 'geolib';
+import { User } from "../user/user.entity";
 
 @Injectable()
 export class OrderService {
@@ -22,6 +24,23 @@ export class OrderService {
       orders,
       volunteer_orders,
     };
+  }
+
+  async findByGps(sessionUserId) {
+    const orders = await this.orderRepository.find({where: {"status": "open"}});
+    const user = await this.userRepository.findOne(sessionUserId);
+    const perimiter = user.action_perimeter * 1000; // km in m
+
+    return orders.filter((order) => this.isInRange(order, user, perimiter))
+  }
+
+  isInRange(order: Order, user: User, perimiter: number) {
+    const distance = geolib.getDistance(
+      { latitude: order.latitude, longitude: order.longitude },
+      { latitude: user.latitude, longitude: user.longitude }
+    );
+
+    return distance < perimiter
   }
 
   async getById(orderId) {
@@ -43,6 +62,7 @@ export class OrderService {
     order.longitude = requestDto.longitude;
     order.address = requestDto.address;
     order.expires_at = requestDto.expires_at;
+
     order.created_by = await this.userRepository.findOne({where: {id: sessionUser.id}});
     order.created_at = moment(new Date()).format("YYYY-MM-DD HH:mm");
     order.status = 'open';
