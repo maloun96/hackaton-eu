@@ -88,6 +88,12 @@ export class OrderController {
    *     tags:
    *       - order
    *     description: Get order
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         description: id
+   *         required: true
+   *         type: integer
    *     produces:
    *       - application/json
    *     responses:
@@ -109,6 +115,12 @@ export class OrderController {
    *     tags:
    *       - order
    *     description: Accept order
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         description: id
+   *         required: true
+   *         type: integer
    *     produces:
    *       - application/json
    *     responses:
