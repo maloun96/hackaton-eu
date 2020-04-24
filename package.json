@@ -21,7 +21,8 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/database/config/local.ts",
     "typeorm:test": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/database/config/test.ts",
     "migration:run": "npm run typeorm migration:run && npm run typeorm:test migration:run",
-    "migration:revert": "npm run typeorm migration:revert && npm run typeorm:test migration:revert"
+    "migration:revert": "npm run typeorm migration:revert && npm run typeorm:test migration:revert",
+    "postinstall": "npm run prestart:prod"
   },
   "dependencies": {
     "@nestjs/common": "^6.10.14",

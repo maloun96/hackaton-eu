@@ -19,6 +19,7 @@ const initApp = async () => {
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'debug', 'warn']
   });
+  app.enableCors();
 
   app.useGlobalFilters(new BadRequestExceptionFilter(), new QueryFailedExceptionFilter(), new HttpExceptionFilter());
 
