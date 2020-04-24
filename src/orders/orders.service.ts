@@ -14,8 +14,21 @@ export class OrderService {
   ) {
   }
 
-  async findAll(): Promise<Order[]> {
-    return await this.orderRepository.find();
+  async findAll(sessionUserId): Promise<any> {
+    const orders = await this.orderRepository.find({where: {created_by: sessionUserId}});
+    const volunteer_orders = await this.orderRepository.find({where: {accepted_by: sessionUserId}});
+
+    return {
+      orders,
+      volunteer_orders,
+    };
+  }
+
+  async accept(orderId: number, sessionUserId: number) {
+    const order = await this.orderRepository.findOne(orderId);
+    order.accepted_by = await this.userRepository.findOne(sessionUserId);
+
+    return this.orderRepository.save(order);
   }
 
   async create(requestDto: any, sessionUser) {

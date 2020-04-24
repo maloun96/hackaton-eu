@@ -27,8 +27,8 @@ export class OrderController {
    *         description: success
    */
   @Get()
-  index(): Promise<Order[]> {
-    return this.orderService.findAll();
+  index(@Req() req): Promise<Order[]> {
+    return this.orderService.findAll(req.user.id);
   }
 
   /**
@@ -57,6 +57,27 @@ export class OrderController {
   @Post('')
   async create(@Body() data: any, @Req() req): Promise<any> {
     return this.orderService.create(data, req.user);
+  }
+
+  /**
+   * @swagger
+   *
+   * /order/{id}/accept:
+   *   post:
+   *     tags:
+   *       - order
+   *     description: Accept order
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: success
+   *     security:
+   *       - bearer: []
+   */
+  @Post(':id/accept')
+  async accept(@Param() params: FindOneOrder, @Req() req): Promise<any> {
+    return this.orderService.accept(params.id, req.user.id);
   }
 
   /**
