@@ -41,6 +41,7 @@ export class User {
   phone: string;
 
   @IsNumber()
+  @IsOptional()
   @Column()
   latitude: number;
 
@@ -50,6 +51,7 @@ export class User {
   available: boolean;
 
   @IsNumber()
+  @IsOptional()
   @Column()
   longitude: number;
 
