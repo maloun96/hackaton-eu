@@ -30,7 +30,9 @@ export class OrderService {
 
   async findByGps(sessionUserId) {
     const orders = await this.orderRepository.find({where: {"status": "open"}});
+    console.log(sessionUserId);
     const user = await this.userRepository.findOne(sessionUserId);
+    console.log(user);
     const perimiter = user.action_perimeter * 1000; // km in m
 
     return orders.filter((order) => this.isInRange(order, user, perimiter))
@@ -54,7 +56,9 @@ export class OrderService {
     order.accepted_by = await this.userRepository.findOne(sessionUserId);
     order.status = "in progress";
 
-    this.pusherService.sendNotification(order.created_by.id, 'Your order has been taken.');
+    if (order.created_by) {
+      this.pusherService.sendNotification(order.created_by.id, 'Your order has been taken.');
+    }
     return this.orderRepository.save(order);
   }
 
@@ -96,7 +100,9 @@ export class OrderService {
       return errors;
     }
 
-    this.pusherService.sendNotification(order.created_by.id, `Your order status has been changed to ${order.status}`);
+    if (order.created_by) {
+      this.pusherService.sendNotification(order.created_by.id, `Your order status has been changed to ${order.status}`);
+    }
 
     return await this.orderRepository.save(order);
   }
