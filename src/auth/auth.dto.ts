@@ -1,6 +1,6 @@
 import {
   IsEmail,
-  IsNotEmpty,
+  IsNotEmpty, IsNumber,
   IsString, Validate,
 } from 'class-validator';
 import { UserExistValidator } from '../user/user.validator';
@@ -16,4 +16,12 @@ export class LoginUserDTO {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  latitude: number;
+
+  @IsNumber()
+  @IsNotEmpty()
+  longitude: number;
 }

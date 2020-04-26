@@ -39,6 +39,10 @@ export class AuthService {
 
     const access_token = this.jwtService.sign(payload);
 
+    userData.latitude = user.latitude;
+    userData.longitude = user.longitude;
+    await this.userRepository.save(userData);
+
     return {
       ...payload,
       access_token: access_token,
