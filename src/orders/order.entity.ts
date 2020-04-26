@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { AfterLoad, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { IsEnum, IsNumber, IsString } from "class-validator";
 import { User } from "../user/user.entity";
+import { ColumnNumericTransformer } from "./column-transformer";
 
 @Entity({ name: 'orders' })
 export class Order {
@@ -12,11 +13,19 @@ export class Order {
   title: string;
 
   @IsNumber()
-  @Column()
+  @Column('numeric', {
+    precision: 11,
+    scale: 8,
+    transformer: new ColumnNumericTransformer(),
+  })
   latitude: number;
 
   @IsNumber()
-  @Column()
+  @Column('numeric', {
+    precision: 11,
+    scale: 8,
+    transformer: new ColumnNumericTransformer(),
+  })
   longitude: number;
 
   @IsString()
