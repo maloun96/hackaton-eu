@@ -64,7 +64,6 @@ export class User {
   password: string;
 
   @BeforeInsert()
-  @BeforeUpdate()
   async hashPassword() {
     if (this.password) {
       this.password = await crypto.createHmac('sha256', this.password).digest('hex');

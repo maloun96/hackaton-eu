@@ -25,10 +25,12 @@ export class AuthService {
       return false;
     }
 
+    console.log(userData);
+
     const password = await crypto.createHmac('sha256', user.password).digest('hex');
 
     if (password !== userData.password) {
-      throw new UnauthorizedException('User or passowrd incorrect.');
+      throw new UnauthorizedException('User or password incorrect.');
     }
 
     const payload = {
