@@ -19,20 +19,18 @@ export class OrderService {
   }
 
   async findAll(sessionUserId): Promise<any> {
-    const orders = await this.orderRepository.find({where: {created_by: sessionUserId}});
-    const volunteer_orders = await this.orderRepository.find({where: {accepted_by: sessionUserId}});
+    const orders = await this.orderRepository.find({where: {created_by: sessionUserId}, relations: ["created_by", "accepted_by"]});
+    const volunteer_orders = await this.orderRepository.find({where: {accepted_by: sessionUserId}, relations: ["created_by", "accepted_by"]});
 
     return {
       orders,
-      volunteer_orders,
+      volunteer_orders
     };
   }
 
   async findByGps(sessionUserId) {
     const orders = await this.orderRepository.find({where: {"status": "open"}});
-    console.log(sessionUserId);
     const user = await this.userRepository.findOne(sessionUserId);
-    console.log(user);
     const perimiter = user.action_perimeter * 1000; // km in m
 
     return orders.filter((order) => this.isInRange(order, user, perimiter))
@@ -101,7 +99,7 @@ export class OrderService {
     }
 
     if (order.created_by) {
-      this.pusherService.sendNotification(order.created_by.id, `Your order status has been changed to ${order.status}`);
+      // this.pusherService.sendNotification(order.created_by.id, `Your order status has been changed to ${order.status}`);
     }
 
     return await this.orderRepository.save(order);
