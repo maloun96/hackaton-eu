@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DeleteResult } from 'typeorm';
+import { DeleteResult, Not } from 'typeorm';
 import { OrderRepository } from "./orders.repository";
 import { Order } from "./order.entity";
 import { UserRepository } from "../user/user.repository";
@@ -29,8 +29,8 @@ export class OrderService {
   }
 
   async findByGps(sessionUserId) {
-    const orders = await this.orderRepository.find({where: {"status": "open"}});
     const user = await this.userRepository.findOne(sessionUserId);
+    const orders = await this.orderRepository.find({where: {"status": "open", created_by: Not(sessionUserId)}, relations: ["created_by", "accepted_by"]});
     const perimiter = user.action_perimeter * 1000; // km in m
 
     return orders.filter((order) => this.isInRange(order, user, perimiter))
