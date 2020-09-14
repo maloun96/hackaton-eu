@@ -22,9 +22,7 @@
     "typeorm:test": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/database/config/test.ts",
     "migration:run": "npm run typeorm migration:run",
     "migration:revert": "npm run typeorm migration:revert",
-    "postinstall":"tsc",
-    "prestart:prod": "npm run migration:run && npm run build",
-    "heroku-prebuild": "npm run migration:run"
+    "prestart:prod": "npm run build",
   },
   "dependencies": {
     "@nestjs/common": "^6.10.14",
