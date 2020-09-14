@@ -16,6 +16,7 @@ export class CreateUsersTable1583838019824 implements MigrationInterface {
                 password VARCHAR(255) NOT NULL,
                 latitude DECIMAL(11,8),
                 longitude DECIMAL(11,8),
+                stars INT NOT NULL DEFAULT 0,
                 PRIMARY KEY (id),
                 UNIQUE INDEX email_UNIQUE (email ASC)
             );

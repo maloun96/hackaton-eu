@@ -81,6 +81,20 @@ export class OrderService {
     return await this.orderRepository.save(order);
   }
 
+  async thanks(id) {
+    const order = await this.orderRepository.findOne({where: {id}, relations: ["created_by", "accepted_by"]});
+    const user = await this.userRepository.findOne(order.accepted_by.id);
+    user.stars = user.stars + 1;
+
+    return this.userRepository.save(user);
+  }
+
+  async report(id, data) {
+    const order = await this.orderRepository.findOne({where: {id}, relations: ["created_by", "accepted_by"]});
+
+    // TODO: sent email
+  }
+
   async update(requestDto: any, sessionUser) {
     const order = await this.orderRepository.findOne(requestDto.id);
     order.title = requestDto.title || order.title;

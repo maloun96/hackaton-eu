@@ -137,6 +137,61 @@ export class OrderController {
   /**
    * @swagger
    *
+   * /order/{id}/thanks:
+   *   post:
+   *     tags:
+   *       - order
+   *     description: Thanks
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         description: id
+   *         required: true
+   *         type: integer
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: success
+   *     security:
+   *       - bearer: []
+   */
+  @Post(':id/thanks')
+  async thanks(@Param() params: FindOneOrder, @Req() req): Promise<any> {
+    return this.orderService.thanks(params.id);
+  }
+
+
+  /**
+   * @swagger
+   *
+   * /order/{id}/report:
+   *   post:
+   *     tags:
+   *       - order
+   *     description: Report
+   *     parameters:
+   *       - name: id
+   *         in: path
+   *         description: id
+   *         required: true
+   *         type: integer
+   *     produces:
+   *       - application/json
+   *     responses:
+   *       200:
+   *         description: success
+   *     security:
+   *       - bearer: []
+   */
+  @Post(':id/report')
+  async report(@Param() params: FindOneOrder, @Body() data: any, @Req() req): Promise<any> {
+    return this.orderService.report(params.id, data);
+  }
+
+  /**
+   * @swagger
+   *
    * /order/{id}:
    *   put:
    *     tags:

@@ -63,6 +63,10 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
+  @IsNumber()
+  @Column({ nullable: false })
+  stars: string;
+
   @BeforeInsert()
   async hashPassword() {
     if (this.password) {
